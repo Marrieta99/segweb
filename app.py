@@ -7,13 +7,16 @@ app.secret_key = "select_a_COMPLEX_secret_key_please"
 
 @app.route("/")
 def index():
-    return "<h1>This is My Starter App</h1>"
+    data = get_db()
+    return str(data)
 
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect('grocery_list.db')
-    return db
+        cursor = db.cursor()
+        cursor.execute("select * from groceries")
+    return cursor.fetchall()
 
 @app.teardown_appcontext
 def close_connection(exception):
