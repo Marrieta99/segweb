@@ -15,7 +15,7 @@ def get_db():
     if db is None:
         db = g._database = sqlite3.connect('grocery_list.db')
         cursor = db.cursor()
-        cursor.execute("select * from groceries")
+        cursor.execute("select name from groceries")
     return cursor.fetchall()
 
 @app.teardown_appcontext
