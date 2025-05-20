@@ -8,7 +8,7 @@ app.secret_key = "select_a_COMPLEX_secret_key_please"
 @app.route("/")
 def index():
     data = get_db()
-    return data[0]
+    return render_template("index.html", all_data=data)
 
 def get_db():
     db = getattr(g, '_database', None)
