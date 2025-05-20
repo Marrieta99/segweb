@@ -8,7 +8,7 @@ app.secret_key = "select_a_COMPLEX_secret_key_please"
 @app.route("/")
 def index():
     data = get_db()
-    return str(data)
+    return data[0]
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -16,7 +16,9 @@ def get_db():
         db = g._database = sqlite3.connect('grocery_list.db')
         cursor = db.cursor()
         cursor.execute("select name from groceries")
-    return cursor.fetchall()
+        all_data = cursor.fetchall()
+        all_data = [str(item[0]) for item in all_data]
+    return all_data
 
 @app.teardown_appcontext
 def close_connection(exception):
